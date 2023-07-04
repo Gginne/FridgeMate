@@ -3,14 +3,13 @@ import { useAuth } from "../../contexts/AuthContext"
 import { Link, Navigate, useNavigate} from "react-router-dom"
 import CenteredContainer from "../commons/CenteredContainer"
 import { useForm } from '@mantine/form';
-import { Alert, Stack, Text, TextInput, Button, Card, PasswordInput, Title } from '@mantine/core';
+import { Alert, Text, TextInput, Button, Card, PasswordInput, Title } from '@mantine/core';
 
 export default function Login() {
   const { currentUser } = useAuth()
   const navigate = useNavigate()
   const { login } = useAuth()
   const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
 
   const form = useForm({
     initialValues: {
@@ -28,7 +27,6 @@ export default function Login() {
     form.validate();
 
     try {
-      setLoading(true)
       await login(form.values.email, form.values.password)
       navigate("/")
     } catch(e) {
@@ -36,7 +34,6 @@ export default function Login() {
       setError("Failed to log in")
     }
 
-    setLoading(false)
   }
 
 
