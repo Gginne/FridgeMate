@@ -1,28 +1,27 @@
 import React from "react"
+import { AppShell, Button, Text, Header, Group } from '@mantine/core';
 import { useAuth } from "../../contexts/AuthContext"
 import { Navigate, Outlet, Link} from "react-router-dom"
-import { Button, Navbar, Container } from "react-bootstrap";
 
 export default function AuthLayout() {
   const { currentUser, logout } = useAuth()
 
   return currentUser !== null ? (
-    <>
-    <Navbar className="bg-white shadow-sm">
-      <Container>
-        <Navbar.Brand as={Link} to='/'>Fridge Mate</Navbar.Brand>
-        <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
+    <AppShell
+      padding="md"
+      header={<Header height={60} p="xs">
+        <Group position="apart">
+          <Text>
             Signed in as: {currentUser.email}
-          </Navbar.Text>
-          <Button className="ml-3" variant="danger" onClick={logout}>Logout</Button>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-   
+          </Text>
+          <Button onClick={logout} color="red">
+            Logout
+          </Button>
+        </Group>
+      </Header>}
+    >
       <Outlet />
-     </>
+    </AppShell>
 
   ) : (
     <Navigate to={"/login"} replace />
