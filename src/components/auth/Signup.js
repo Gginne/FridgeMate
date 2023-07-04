@@ -1,37 +1,47 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Button, Card } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import CenteredContainer from "../commons/CenteredContainer"
 import { db } from "../../firebase";
+import { Alert, PasswordInput, TextInput, Title } from '@mantine/core';
+import { useForm, matchesField } from '@mantine/form';
 
 export default function Signup() {
   const { currentUser } = useAuth()
   const navigate = useNavigate()
   const emailRef = useRef()
   const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
   const { signup } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
+  const form = useForm({
+    initialValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      confirmPassword: matchesField('password', 'Passwords are not the same'),
+    },
+  });
+
 
   async function handleSubmit(e) {
     e.preventDefault()
-
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
-    }
+    form.validate();
+    console.log(form.values)
 
     try {
       setError("")
       setLoading(true)
       const data = {
-        email: emailRef.current.value
+        email: form.values.email
       }
-      const result = await signup(emailRef.current.value, passwordRef.current.value)
-      console.log(result.user.uid)
-      console.log(emailRef)
+      const result = await signup(form.values.email, form.values.password)
       db.users.doc(result.user.uid).set(data)
       navigate("/")
     } catch(e) {
@@ -47,25 +57,33 @@ export default function Signup() {
       <CenteredContainer>
         <Card>
           <Card.Body>
-            <h2 className="text-center mb-4">Sign Up</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
-              <Form.Group id="email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" ref={emailRef} required />
-              </Form.Group>
-              <Form.Group id="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" ref={passwordRef} required />
-              </Form.Group>
-              <Form.Group id="password-confirm">
-                <Form.Label>Password Confirmation</Form.Label>
-                <Form.Control type="password" ref={passwordConfirmRef} required />
-              </Form.Group>
-              <Button disabled={loading} className="w-100" type="submit">
-                Sign Up
-              </Button>
-            </Form>
+            <Title  align="center">
+              Sign Up
+              </Title>
+            {error && <Alert my='sm' color="red" variant="filled">{error}</Alert>}
+            <form onSubmit={handleSubmit}>
+            <TextInput 
+                label="Email"
+                placeholder="your@email.com"
+                withAsterisk
+                {...form.getInputProps('email')}
+              />
+               <PasswordInput 
+                mt='sm'
+                placeholder="Password"
+                label="Password"
+                withAsterisk
+                {...form.getInputProps('password')}
+               />
+               <PasswordInput 
+                mt='sm'
+                placeholder="Confirm Password"
+                label="Password Confirmation"
+                withAsterisk
+                {...form.getInputProps('confirmPassword')}
+               />
+               <Button disabled={loading} mt="lg"  type="submit">Submit</Button>
+            </form>
           </Card.Body>
         </Card>
         <div className="w-100 text-center mt-2">
