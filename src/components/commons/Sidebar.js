@@ -15,10 +15,7 @@ export default function Sidebar() {
                 <span>Home</span>
             </Link>
     
-            <Link to="/" className="sidebar-link"   title="">
-                <FontAwesomeIcon icon={faPlus} size="2x" />
-                <span>Add</span>
-            </Link>
+      
             <Link to="/"  className="sidebar-link" title="">
                 <FontAwesomeIcon icon={faBowlFood} size="2x" />
                 <span>Recipe</span>
