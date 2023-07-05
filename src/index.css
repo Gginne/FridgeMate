@@ -1,8 +1,4 @@
 
-.bg-navbar {
-  background-color: #8349f6;
-  color: #fff;
-}
 
 .app-container{
     margin: auto;
@@ -15,4 +11,24 @@
     font-size: .75rem;
     font-weight: bold;
     margin-bottom: 5px;
+}
+
+.sidebar {
+  height: 95vh;
+  background-color: #37c191;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  border: .2px solid lightgray;
+}
+
+.sidebar-link {
+  color: white;
+}
+
+.sidebar-link span {
+  display: block;
+  margin-top: 5px;
 }
