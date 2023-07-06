@@ -19,6 +19,8 @@ const app = firebase.initializeApp({
 export const firestore = app.firestore()
 
 export const db = {
+  fridgeitems: firestore.collection("fridgeitems"),
+  groceryitems: firestore.collection("groceryitems"),
   formatDoc: doc => {
     return { id: doc.id, ...doc.data() }
   },

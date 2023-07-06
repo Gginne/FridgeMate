@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 import { Button, Card } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, Navigate, useNavigate } from "react-router-dom"
@@ -10,8 +10,6 @@ import { useForm, matchesField } from '@mantine/form';
 export default function Signup() {
   const { currentUser } = useAuth()
   const navigate = useNavigate()
-  const emailRef = useRef()
-  const passwordRef = useRef()
   const { signup } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
