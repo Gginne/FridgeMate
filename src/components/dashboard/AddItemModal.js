@@ -12,7 +12,7 @@ import { ActionIcon,
 import { useForm, isNotEmpty } from '@mantine/form';
 import { DateInput } from '@mantine/dates';
 import useApi from "../../hooks/useApi";
-import React, { useState }from "react";
+import React, { useMemo, useState }from "react";
 import { Search } from 'react-feather'
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext"
@@ -21,14 +21,14 @@ export default function AddItemModal(props) {
 
     const { currentUser } = useAuth()
     const [searchValue, setSearchValue] = useState('');
-    const [items, setItems] = useState([])
+    //const [items, setItems] = useState([])
     const groceryReq = useApi('/food/ingredients/search')
 
     const searchData = async () => {
         console.log(searchValue)
         try {
             await groceryReq.fetchData({query: searchValue})
-            console.log(groceryReq.data)
+            /*console.log(groceryReq.data)
             var arr = []
             groceryReq.data.results.map(item => {
                 arr.push({
@@ -36,7 +36,7 @@ export default function AddItemModal(props) {
                     label: item.name
                 })
             })
-            setItems(arr)
+            //setItems(arr)*/
         } catch(err) {
             console.log(err)
         }
@@ -60,7 +60,7 @@ export default function AddItemModal(props) {
             await db.fridgeitems.add(data);
             props.onClose()
             form.reset();
-            setItems([]);
+            //setItems([]);
             setSearchValue('')
         } catch(err) {
             console.log(err)
@@ -83,6 +83,12 @@ export default function AddItemModal(props) {
             exp: isNotEmpty(),
         }
       });
+    
+    const items = useMemo(() => {
+        if (groceryReq.data.results) return groceryReq.data.results.map(({id, name}) => ({value: id, label: name}))
+
+        return []
+    }, [groceryReq.data])
 
     return(
         <Modal 
