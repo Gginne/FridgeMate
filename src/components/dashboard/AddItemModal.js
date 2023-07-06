@@ -9,7 +9,7 @@ import { ActionIcon,
     Stack, 
     Text,
     TextInput } from '@mantine/core';
-import { useForm, isNotEmpty } from '@mantine/form';
+import { useForm, isNotEmpty, isInRange } from '@mantine/form';
 import { DateInput } from '@mantine/dates';
 import useApi from "../../hooks/useApi";
 import React, { useMemo, useState }from "react";
@@ -62,6 +62,9 @@ export default function AddItemModal(props) {
         const item = items.find(item => item.label === e.target.value)
         if(item) {
             setUnits(item.possibleUnits)
+            console.log(item.possibleUnits)
+            console.log(item.possibleUnits[0])
+            form.setFieldValue('unit', item.possibleUnits[0])
         } else {
             setUnits([])
         }
@@ -77,7 +80,7 @@ export default function AddItemModal(props) {
         },
         validate: {
             item: isNotEmpty(),
-            quantity: isNotEmpty(),
+            quantity: (value) => (value <= 0 ? 'Quantity must be greater than 0' : null),
             unit: isNotEmpty(),
             boughtdate: isNotEmpty(),
             exp: isNotEmpty(),
@@ -165,7 +168,8 @@ export default function AddItemModal(props) {
                             disabled={!form.values.item}
                             {...form.getInputProps('exp')}
                         />
-                        <Group position="right">
+                        <Group position="apart">
+                            <Button onClick={props.onClose}>Cancel</Button>
                             <Button type='submit'>Submit</Button>
                         </Group>
                     </Stack>
