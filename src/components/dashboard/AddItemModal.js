@@ -9,7 +9,7 @@ import { ActionIcon,
     Stack, 
     Text,
     TextInput } from '@mantine/core';
-import { useForm, isNotEmpty, isInRange } from '@mantine/form';
+import { useForm, isNotEmpty } from '@mantine/form';
 import { DateInput } from '@mantine/dates';
 import useApi from "../../hooks/useApi";
 import React, { useMemo, useState }from "react";
@@ -62,12 +62,16 @@ export default function AddItemModal(props) {
         const item = items.find(item => item.label === e.target.value)
         if(item) {
             setUnits(item.possibleUnits)
-            console.log(item.possibleUnits)
-            console.log(item.possibleUnits[0])
             form.setFieldValue('unit', item.possibleUnits[0])
         } else {
             setUnits([])
         }
+    }
+
+    const handleResetForm = () => {
+        form.reset()
+        setSearchValue('')
+        setUnits([])
     }
 
     const form = useForm({
@@ -169,7 +173,10 @@ export default function AddItemModal(props) {
                             {...form.getInputProps('exp')}
                         />
                         <Group position="apart">
-                            <Button onClick={props.onClose}>Cancel</Button>
+                            <Group>
+                                <Button variant="outline" onClick={props.onClose}>Cancel</Button>
+                                <Button variant="light" onClick={handleResetForm}>Clear form</Button>
+                            </Group>
                             <Button type='submit'>Submit</Button>
                         </Group>
                     </Stack>
