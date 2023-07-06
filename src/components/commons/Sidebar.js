@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, Group } from '@mantine/core';
+import { Card } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faPlus, faBowlFood, faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
