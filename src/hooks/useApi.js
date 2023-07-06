@@ -15,6 +15,7 @@ export default function useApi(endpoint){
     const [err, setErr] = useState(null)
 
     const fetchData = useCallback(async (params) => {
+        console.log(params)
         try{
             setLoading(true)
 

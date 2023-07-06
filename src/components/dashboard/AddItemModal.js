@@ -22,12 +22,13 @@ export default function AddItemModal(props) {
 
     const { currentUser } = useAuth()
     const [searchValue, setSearchValue] = useState('');
+    const [units, setUnits] = useState([]);
     const groceryReq = useApi('/food/ingredients/search')
 
     const searchData = async () => {
         console.log(searchValue)
         try {
-            await groceryReq.fetchData({query: searchValue})
+            await groceryReq.fetchData({query: searchValue, metaInformation: 'true'})
         } catch(err) {
             console.log(err)
         }
@@ -57,11 +58,20 @@ export default function AddItemModal(props) {
         }
     }
 
+    const handleSelect = (e) => {
+        const item = items.find(item => item.label === e.target.value)
+        if(item) {
+            setUnits(item.possibleUnits)
+        } else {
+            setUnits([])
+        }
+    }
+
     const form = useForm({
         initialValues: {
           item: '',
           quantity: 0,
-          unit: 'oz',
+          unit: '',
           boughtdate: '',
           exp: '',
         },
@@ -75,9 +85,10 @@ export default function AddItemModal(props) {
       });
     
     const items = useMemo(() => {
-        if (groceryReq.data.results) return groceryReq.data.results.map(({id, name, image}) => ({value: id, label: name, image}))
+        if (groceryReq.data.results) return groceryReq.data.results.map(({id, name, image, possibleUnits}) => ({value: id, label: name, image, possibleUnits}))
         return []
     }, [groceryReq.data])
+
 
     return(
         <Modal 
@@ -115,6 +126,7 @@ export default function AddItemModal(props) {
                             dropdownComponent="div"
                             description="Select a food that best describes your item"
                             withAsterisk
+                            onSelect={handleSelect}
                             {...form.getInputProps('item')}
                         >
                         </Select>
@@ -133,7 +145,7 @@ export default function AddItemModal(props) {
                             {...form.getInputProps('quantity')}
                         />
                         <NativeSelect
-                            data={['oz', 'grams', 'lbs', 'pints', 'quarts', 'gallons', ]}
+                            data={units}
                             label="Unit"
                             withAsterisk
                             disabled={!form.values.item}
