@@ -21,22 +21,12 @@ export default function AddItemModal(props) {
 
     const { currentUser } = useAuth()
     const [searchValue, setSearchValue] = useState('');
-    //const [items, setItems] = useState([])
     const groceryReq = useApi('/food/ingredients/search')
 
     const searchData = async () => {
         console.log(searchValue)
         try {
             await groceryReq.fetchData({query: searchValue})
-            /*console.log(groceryReq.data)
-            var arr = []
-            groceryReq.data.results.map(item => {
-                arr.push({
-                    value: item.id,
-                    label: item.name
-                })
-            })
-            //setItems(arr)*/
         } catch(err) {
             console.log(err)
         }
