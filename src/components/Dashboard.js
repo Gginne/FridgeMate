@@ -19,7 +19,6 @@ export default function Dashboard() {
     <AddItemModal opened={addItemOpen} onClose={() => setAddItemOpen(false)}/>
      <h2>My Fridge</h2>
      <Button onClick={() => setAddItemOpen(true)}>Add food item</Button>
-     <Button onClick={() => setAddItemOpen(true)}>Add food item</Button>
      
     </div>
   );
