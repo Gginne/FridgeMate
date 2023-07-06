@@ -10,13 +10,9 @@ export default function AuthLayout() {
     <AppShell
       navbar={<Sidebar />}
     >
-         <Grid>
-          <Grid.Col span={1}></Grid.Col>
-          <Grid.Col span={10}>
+        
             <Outlet />
-          </Grid.Col>
-    
-        </Grid>
+       
       
     </AppShell>
 
