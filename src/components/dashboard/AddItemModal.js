@@ -16,6 +16,7 @@ import React, { useMemo, useState }from "react";
 import { Search } from 'react-feather'
 import { db } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext"
+import SelectItem from "./SelectItem"
 
 export default function AddItemModal(props) {
 
@@ -50,7 +51,6 @@ export default function AddItemModal(props) {
             await db.fridgeitems.add(data);
             props.onClose()
             form.reset();
-            //setItems([]);
             setSearchValue('')
         } catch(err) {
             console.log(err)
@@ -75,8 +75,7 @@ export default function AddItemModal(props) {
       });
     
     const items = useMemo(() => {
-        if (groceryReq.data.results) return groceryReq.data.results.map(({id, name}) => ({value: id, label: name}))
-
+        if (groceryReq.data.results) return groceryReq.data.results.map(({id, name, image}) => ({value: id, label: name, image}))
         return []
     }, [groceryReq.data])
 
@@ -112,6 +111,7 @@ export default function AddItemModal(props) {
                             data={items}
                             searchable
                             clearable
+                            itemComponent={SelectItem}
                             dropdownComponent="div"
                             description="Select a food that best describes your item"
                             withAsterisk
