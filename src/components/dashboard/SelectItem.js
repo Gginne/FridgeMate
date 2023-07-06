@@ -1,10 +1,15 @@
 import { Avatar, Group, Text } from '@mantine/core';
+import { forwardRef } from 'react';
 
-export default function SelectItem (props){
+const SelectItem = forwardRef(({image, label, ...others }, ref) => {
     return(
-        <Group noWrap>
-            <Avatar src={'https://spoonacular.com/cdn/ingredients_100x100/' + props.image} />
-            <Text size="sm">{props.label}</Text>
-        </Group>   
+        <div ref={ref} {...others}>
+            <Group noWrap>
+                <Avatar src={'https://spoonacular.com/cdn/ingredients_100x100/' + image} />
+                <Text size="sm">{label}</Text>
+            </Group>  
+        </div>
     )
-}
+})
+
+export default SelectItem
