@@ -17,11 +17,7 @@ export default function useApi(endpoint){
     const fetchData = useCallback(async (params) => {
         try{
             setLoading(true)
-
-            console.log(endpoint)
             const response = await apiClient.get(endpoint, {params})
-            console.log(response)
-
             setData(response.data)  
         } catch(err) {
             console.log(err)
