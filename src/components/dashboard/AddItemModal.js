@@ -22,7 +22,6 @@ export default function AddItemModal(props) {
     const { currentUser } = useAuth()
     const [searchValue, setSearchValue] = useState('');
     const [items, setItems] = useState([])
-    const [item, setItem] = useState('');
     const groceryReq = useApi('/food/ingredients/search')
 
     const searchData = async () => {
@@ -50,16 +49,19 @@ export default function AddItemModal(props) {
             return
         }
         const data = {
-            item,
+            item: form.values.item,
             user: currentUser.uid,
             quantity: form.values.quantity,
             unit: form.values.unit,
             bought: form.values.boughtdate,
             exp: form.values.exp
-          };
+          }
         try {
-            const result = await db.fridgeitems.add(data);
-            console.log(result)
+            await db.fridgeitems.add(data);
+            props.onClose()
+            form.reset();
+            setItems([]);
+            setSearchValue('')
         } catch(err) {
             console.log(err)
         }
@@ -117,8 +119,7 @@ export default function AddItemModal(props) {
                             dropdownComponent="div"
                             description="Select a food that best describes your item"
                             withAsterisk
-                            value={item} 
-                            onChange={setItem}
+                            {...form.getInputProps('item')}
                         >
                         </Select>
                         )}
@@ -132,28 +133,28 @@ export default function AddItemModal(props) {
                             precision={2}
                             min={0}
                             withAsterisk
-                            disabled={!item}
+                            disabled={!form.values.item}
                             {...form.getInputProps('quantity')}
                         />
                         <NativeSelect
                             data={['oz', 'grams', 'lbs', 'pints', 'quarts', 'gallons', ]}
                             label="Unit"
                             withAsterisk
-                            disabled={!item}
+                            disabled={!form.values.item}
                             {...form.getInputProps('unit')}
                         />
                         <DateInput 
                             label="Bought date" 
                             placeholder="Date input" 
                             withAsterisk
-                            disabled={!item}
+                            disabled={!form.values.item}
                             {...form.getInputProps('boughtdate')}
                         />
                         <DateInput 
                             label="Expiration date" 
                             placeholder="Date input" 
                             withAsterisk
-                            disabled={!item}
+                            disabled={!form.values.item}
                             {...form.getInputProps('exp')}
                         />
                         <Group position="right">
