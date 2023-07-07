@@ -1,5 +1,5 @@
 import React from "react"
-import { AppShell, Grid } from '@mantine/core';
+import { AppShell } from '@mantine/core';
 import { useAuth } from "../../contexts/AuthContext"
 import { Navigate, Outlet} from "react-router-dom"
 import Sidebar from "../commons/Sidebar";
