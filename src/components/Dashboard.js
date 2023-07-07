@@ -1,13 +1,13 @@
 import React from "react";
-
+import GroceryDisplay from "./dashboard/GroceryDisplay";
 export default function Dashboard() {
 
   return (
 
-    <div className="">
+    <div>
 
-     <h2>My Fridge</h2>
+     <GroceryDisplay />
      
-    </div>
+     </div>
   );
 }

@@ -24,6 +24,7 @@ export default function AddItemModal(props) {
     const [searchValue, setSearchValue] = useState('');
     const [units, setUnits] = useState([]);
     const groceryReq = useApi('/food/ingredients/search')
+    const [selectedItem, setSelectedItem] = useState(null)
 
     const searchData = async () => {
         console.log(searchValue)
@@ -50,6 +51,11 @@ export default function AddItemModal(props) {
           }
         try {
             await db.fridgeitems.add(data);
+            await db.groceryitems.doc(String(selectedItem.value)).set({
+                image: selectedItem.image,
+                name: selectedItem.label
+            });
+            console.log(selectedItem)
             props.onClose()
             form.reset();
             setSearchValue('')
@@ -60,8 +66,10 @@ export default function AddItemModal(props) {
 
     const handleSelect = (e) => {
         const item = items.find(item => item.label === e.target.value)
+    
         if(item) {
             setUnits(item.possibleUnits)
+            setSelectedItem(item)
             form.setFieldValue('unit', item.possibleUnits[0])
         } else {
             setUnits([])
@@ -72,6 +80,7 @@ export default function AddItemModal(props) {
         form.reset()
         setSearchValue('')
         setUnits([])
+        setSelectedItem(null)
     }
 
     const form = useForm({

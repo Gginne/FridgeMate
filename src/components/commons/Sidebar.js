@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Card } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Navbar, Stack, Text } from '@mantine/core';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faPlus, faBowlFood, faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../contexts/AuthContext"
@@ -9,29 +8,28 @@ export default function Sidebar() {
     const {logout} = useAuth()
     const [addItemOpen, setAddItemOpen] = useState(false)
   return (
-    <Card className='sidebar' shadow="md" >
-             
-            <Link to="/"  className="sidebar-link" title="">
-                <FontAwesomeIcon icon={faHouse} size="2x" />
-                <span>Home</span>
-            </Link>
+    <Navbar width={{ base: 100 }} height='100%' p="lg" sx={{ backgroundColor: '#37c191'}}
+    >
+        <AddItemModal opened={addItemOpen} onClose={() => setAddItemOpen(false)}/>
+        <Stack h='100%' justify="space-around">
+          <Stack  align="center" spacing="xs">
+            <FontAwesomeIcon color="white" icon={faHouse} size="2x" />
+            <Text color="white">Home</Text>
+          </Stack>
+          <Stack align="center" spacing="xs" onClick={() => setAddItemOpen(true)}>
+            <FontAwesomeIcon color="white" icon={faPlus} size="2x"/>
+            <Text color="white">Add</Text>
+          </Stack>
+          <Stack align="center" spacing="xs">
+            <FontAwesomeIcon color="white" icon={faBowlFood} size="2x" />
+            <Text color="white">Recipe</Text>
+          </Stack>
+          <Stack align="center" spacing="xs" onClick={logout}>
+            <FontAwesomeIcon color="white" icon={faRightFromBracket} size="2x" />
+            <Text color="white">Logout</Text>
+          </Stack>
 
-            <div className="sidebar-link" >
-            <AddItemModal opened={addItemOpen} onClose={() => setAddItemOpen(false)}/>
-                <FontAwesomeIcon icon={faPlus} size="2x" onClick={() => setAddItemOpen(true)}/>
-                <span>Add</span>
-            </div>
-
-            <Link to="/"  className="sidebar-link" title="">
-                <FontAwesomeIcon icon={faBowlFood} size="2x" />
-                <span>Recipe</span>
-            </Link>
-            <Link to="/"  className="sidebar-link" title="" onClick={logout}>
-                <FontAwesomeIcon icon={faRightFromBracket} size="2x" />
-                <span>Logout</span>
-            </Link>
-    
-       
-     </Card>
+        </Stack>
+      </Navbar>
   )
 }
