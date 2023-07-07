@@ -1,9 +1,7 @@
 import { Button, 
     Group, 
     Modal, 
-    Divider, 
-    Text,
-    Stack } from '@mantine/core';
+} from '@mantine/core';
 import { db } from "../../firebase";
 
 export default function DeleteItemModal(props) {

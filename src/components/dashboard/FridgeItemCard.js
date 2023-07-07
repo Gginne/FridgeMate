@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import { ActionIcon, Card, Space, Group, Badge, Text, Divider, Image } from '@mantine/core';
-import { Trash } from 'react-feather'
+import { ActionIcon, Card, Space, Group, Badge, Text, Divider, Tooltip, Image } from '@mantine/core';
+import { Edit, Trash } from 'react-feather'
 import DeleteItemModal from './DeleteItemModal';
+import EditItemModal from './EditItemModal';
 
 function FridgeItemCard({ data }) {
   const { bought, exp, id, image, item, name, quantity, unit, user } = data;
   const [deleteItemOpen, setDeleteItemOpen] = useState(false)
+  const [editItemOpen, setEditItemOpen] = useState(false)
 
   const getDaysDiff = () => {
     const currentDate = new Date();
@@ -31,14 +33,25 @@ function FridgeItemCard({ data }) {
   return (
     <>
     <DeleteItemModal opened={deleteItemOpen} onClose={() => setDeleteItemOpen(false)} id={id} name={name}/>
+    <EditItemModal opened={editItemOpen} onClose={() => setEditItemOpen(false)} data={data}/>
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section pt='xs'>
-        <Group position="right" onClick={() => setDeleteItemOpen(true)}>
-            <ActionIcon 
-              variant={getDaysDiff() >= 0 ? 'subtle' : 'filled'} 
-              color={getDaysDiff() >= 0 ? 'gray' : 'red'}>
-              <Trash />
+        <Group position="right" >
+          <Tooltip withArrow label="Edit item">
+            <ActionIcon
+              onClick={() => setEditItemOpen(true)}
+            >
+              <Edit />
             </ActionIcon>
+          </Tooltip>
+          <Tooltip withArrow label="Remove item">
+              <ActionIcon 
+                onClick={() => setDeleteItemOpen(true)}
+                variant={getDaysDiff() >= 0 ? 'subtle' : 'filled'} 
+                color={getDaysDiff() >= 0 ? 'gray' : 'red'}>
+                <Trash />
+              </ActionIcon>
+            </Tooltip>
             <Space />
           </Group>
       </Card.Section>
