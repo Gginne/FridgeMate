@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Login from "./auth/Login";
 import AuthLayout from "./auth/AuthLayout";
+import Recipes from "./Recipes";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route element={<AuthLayout />}>
             
             <Route exact path="/" element={<Dashboard />} />
+            <Route exact path="/recipes" element={<Recipes />} />
             
             
         </Route>

@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { ActionIcon, Card, Space, Group, Badge, Text, Divider, Tooltip, Image } from '@mantine/core';
 import { Edit, Trash } from 'react-feather'
 import DeleteItemModal from './DeleteItemModal';
 import EditItemModal from './EditItemModal';
 
 function FridgeItemCard({ data }) {
-  const { bought, exp, id, image, item, name, quantity, unit, user } = data;
+  const { bought, exp, id, image, name, quantity, unit } = data;
   const [deleteItemOpen, setDeleteItemOpen] = useState(false)
   const [editItemOpen, setEditItemOpen] = useState(false)
 
@@ -18,7 +18,7 @@ function FridgeItemCard({ data }) {
     return daysDifference
   }
 
-  const getExpColor = useCallback(() => {
+  const getExpColor = () => {
     const daysDiff = getDaysDiff()
 
     if (daysDiff > 3) {
@@ -28,7 +28,7 @@ function FridgeItemCard({ data }) {
     } else {
       return "red";
     }
-  }, [exp]);
+  };
   
   return (
     <>
