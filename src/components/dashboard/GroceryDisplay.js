@@ -56,7 +56,6 @@ export default function GroceryDisplay() {
     };
   }, [currentUser]);
 
-  console.log(fridge)
   return (
     <div>
       <h2>My Fridge</h2>
