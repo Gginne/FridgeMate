@@ -1,19 +1,27 @@
-import React, { useCallback } from 'react';
-import { Card, Group, Badge, Text, Divider, Image } from '@mantine/core';
+import React, { useCallback, useState } from 'react';
+import { ActionIcon, Card, Space, Group, Badge, Text, Divider, Image } from '@mantine/core';
+import { Trash } from 'react-feather'
+import DeleteItemModal from './DeleteItemModal';
 
 function FridgeItemCard({ data }) {
-  const { bought, exp, image, item, name, quantity, unit, user } = data;
+  const { bought, exp, id, image, item, name, quantity, unit, user } = data;
+  const [deleteItemOpen, setDeleteItemOpen] = useState(false)
 
-  const getExpColor = useCallback(() => {
+  const getDaysDiff = () => {
     const currentDate = new Date();
     const expirationDate = new Date(exp.seconds * 1000);
 
     const timeDifference = expirationDate.getTime() - currentDate.getTime();
     const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    return daysDifference
+  }
 
-    if (daysDifference > 3) {
+  const getExpColor = useCallback(() => {
+    const daysDiff = getDaysDiff()
+
+    if (daysDiff > 3) {
       return "green";
-    } else if (daysDifference >= 0) {
+    } else if (daysDiff >= 0) {
       return "yellow";
     } else {
       return "red";
@@ -21,23 +29,37 @@ function FridgeItemCard({ data }) {
   }, [exp]);
   
   return (
+    <>
+    <DeleteItemModal opened={deleteItemOpen} onClose={() => setDeleteItemOpen(false)} id={id} name={name}/>
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '.5rem'}}>
-        <Image src={'https://spoonacular.com/cdn/ingredients_100x100/'+image} alt={name} height={70} width={80} style={{ marginRight: '1rem' }} />
-        <div>
-            <Text size="lg" weight={700}>{name}</Text>
-            <Badge color="pink" variant="outline"> {quantity} {unit} </Badge>
-        </div>
-      </div>
+      <Card.Section pt='xs'>
+        <Group position="right" onClick={() => setDeleteItemOpen(true)}>
+            <ActionIcon 
+              variant={getDaysDiff() >= 0 ? 'subtle' : 'filled'} 
+              color={getDaysDiff() >= 0 ? 'gray' : 'red'}>
+              <Trash />
+            </ActionIcon>
+            <Space />
+          </Group>
+      </Card.Section>
+      <Card.Section px='md'>
+        <Group mb='sm'>
+          <Image src={'https://spoonacular.com/cdn/ingredients_100x100/'+image} alt={name} height={70} width={80} style={{ marginRight: '1rem' }} />
+            <div>
+                <Text size="lg" weight={700}>{name}</Text>
+                <Badge color="pink" variant="outline"> {quantity} {unit} </Badge>
+            </div>
+        </Group>
+      </Card.Section>
       
       <Divider />
 
       <Group position="apart" mt="md" mb="xs">
         <Badge color="blue" variant="filled"> Bought: {new Date(bought.seconds * 1000).toLocaleDateString()} </Badge>
-     
         <Badge color={getExpColor()} variant="filled"> Expires:{new Date(exp.seconds * 1000).toLocaleDateString()} </Badge>
       </Group>
     </Card>
+    </>
   );
 }
 
