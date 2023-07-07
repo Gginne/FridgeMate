@@ -7,12 +7,11 @@ import AddItemModal from "./../dashboard/AddItemModal";
 import { useNavigate } from 'react-router';
 
 export default function Sidebar() {
-    const {logout} = useAuth()
-    const [addItemOpen, setAddItemOpen] = useState(false)
-    const navigate = useNavigate()
+  const {logout} = useAuth()
+  const [addItemOpen, setAddItemOpen] = useState(false)
+  const navigate = useNavigate()
   return (
-    <Navbar width={{ base: 100 }} height='100%' p="lg" sx={{ backgroundColor: '#37c191'}}
-    >
+    <Navbar width={{ base: 100 }} height='100%' p="lg" sx={{ backgroundColor: '#37c191'}}>
         <AddItemModal opened={addItemOpen} onClose={() => setAddItemOpen(false)}/>
         <Stack h='100%' justify="space-around">
           <Stack  align="center" spacing="xs" onClick={() => navigate('/')}>

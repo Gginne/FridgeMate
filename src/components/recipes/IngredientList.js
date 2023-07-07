@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, MultiSelect, Button, Space, Stack } from "@mantine/core";
+import { Paper, MultiSelect, Button, Stack } from "@mantine/core";
 
 import { Avatar, Group, Text } from "@mantine/core";
 import { forwardRef } from "react";

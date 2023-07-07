@@ -4,7 +4,7 @@ import useFridge from "../../hooks/useFridge";
 import FridgeItemCard from "./FridgeItemCard";
 
 export default function GroceryDisplay() {
-  const {fridge, error} = useFridge()
+  const {fridge} = useFridge()
   
   return (
     <div>
