@@ -18,6 +18,7 @@ export default function useApi(endpoint){
         try{
             setLoading(true)
             const response = await apiClient.get(endpoint, {params})
+            console.log(response)
             setData(response.data)  
         } catch(err) {
             console.log(err)

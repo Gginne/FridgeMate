@@ -19,7 +19,7 @@ function App() {
         <Route element={<AuthLayout />}>
             
             <Route exact path="/" element={<Dashboard />} />
-            <Route exact path="/" element={<Recipes />} />
+            <Route exact path="/recipes" element={<Recipes />} />
             
             
         </Route>

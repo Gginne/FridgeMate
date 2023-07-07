@@ -8,7 +8,7 @@ export default function GroceryDisplay() {
   
   return (
     <div>
-      <h2>My Fridge</h2>
+      <h3>My Fridge</h3>
       <Grid mt='1rem'>
         {fridge.map((item) => (
           <Grid.Col span={3}>
