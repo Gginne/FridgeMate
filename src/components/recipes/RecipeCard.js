@@ -1,5 +1,5 @@
-import { Card, Image, Text, Button, Group } from "@mantine/core";
-
+import { Card, Image, Text, Button, Badge, Group } from "@mantine/core";
+ 
 export default function RecipeCard({ data }) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -8,10 +8,14 @@ export default function RecipeCard({ data }) {
       </Card.Section>
 
       <Group position="apart" mt="md" mb="xs">
-        <Text size={15} weight={500}>
+        <Text size={17} weight={500}>
           {data.title}
         </Text>
       </Group>
+
+      
+        <Badge color="pink" variant="light">Prep Time {data.preparationMinutes} Mins</Badge>
+    
 
       <Button
         component="a"
