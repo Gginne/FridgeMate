@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import useApi from "../hooks/useApi";
 import useFridge from "../hooks/useFridge";
 import IngredientList from "./recipes/IngredientList";
@@ -7,6 +7,7 @@ import RecipeCard from "./recipes/RecipeCard";
 
 export default function Recipes() {
   const recipeRequest = useApi("/recipes/findByIngredients/");
+  const recipeDetailRequest = useApi("/recipes/informationBulk/");
   const { fridge } = useFridge();
 
 
@@ -27,13 +28,17 @@ export default function Recipes() {
     [fridge]
   );
 
-  
+  useEffect(() => {
+    if(recipeRequest.data){
+      const ids = recipeRequest.data.map(rec => rec.id).join(",")
+      recipeDetailRequest.fetchData({ids})
+    } // eslint-disable-next-line
+  }, [recipeDetailRequest.fetchData, recipeRequest.data])
 
   const recipes = useMemo(
-    () => recipeRequest.data ?? [], [recipeRequest.data]
+    () => recipeDetailRequest.data ?? [], [recipeDetailRequest.data]
   )
 
-  console.log(recipes)
 
   return (
     <div>
