@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Navbar, Stack, Text } from '@mantine/core';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faPlus, faBowlFood, faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faPlus, faBowlFood, faRightFromBracket, faList} from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../contexts/AuthContext"
 import AddItemModal from "./../dashboard/AddItemModal";
 export default function Sidebar() {
@@ -19,6 +19,10 @@ export default function Sidebar() {
           <Stack align="center" spacing="xs" onClick={() => setAddItemOpen(true)}>
             <FontAwesomeIcon color="white" icon={faPlus} size="2x"/>
             <Text color="white">Add</Text>
+          </Stack>
+          <Stack align="center" spacing="xs">
+            <FontAwesomeIcon color="white" icon={faList} size="2x" />
+            <Text color="white">Lists</Text>
           </Stack>
           <Stack align="center" spacing="xs">
             <FontAwesomeIcon color="white" icon={faBowlFood} size="2x" />
