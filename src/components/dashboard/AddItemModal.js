@@ -44,6 +44,8 @@ export default function AddItemModal(props) {
         const data = {
             item: form.values.item,
             user: currentUser.uid,
+            image: selectedItem.image,
+            name: selectedItem.label,
             quantity: form.values.quantity,
             unit: form.values.unit,
             bought: form.values.boughtdate,

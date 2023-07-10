@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 export default function useFridge(){
     const [fridge, setFridge] = useState([])
 
-    const [error, setError] = useState(null)
+    //const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const {currentUser} = useAuth()
 
@@ -13,9 +13,11 @@ export default function useFridge(){
         const unsubscribeFridgeItems = db.fridgeitems
           .where("user", "==", currentUser.uid)
           .onSnapshot((snapshot) => {
-            const fetchedDataPromises = [];
-            const fetchedData = [];
-      
+            
+            setFridge(snapshot.docs.map(db.formatDoc))
+            setLoading(false)
+          })
+                  /*
             snapshot.forEach((fridgeItemDoc) => {
               const fridgeItemData = fridgeItemDoc.data();
               const groceryItemId = fridgeItemData.item;
@@ -46,21 +48,20 @@ export default function useFridge(){
                 });
       
                 setFridge(fetchedData);
-                
-              })
-              .catch((error) => {
+            }).catch((error) => {
                 console.log("Error retrieving grocery items:", error);
                 setError(error)
               }).finally(() => {
                 setLoading(false)
               })
-          });
+        */
 
         setLoading(true)
+
         return () => {
           unsubscribeFridgeItems();
         };
       }, [currentUser]);
 
-    return {fridge, loading, error}
+    return {fridge, loading}
 }
