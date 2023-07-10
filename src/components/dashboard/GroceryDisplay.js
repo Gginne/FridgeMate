@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Grid, Group, TextInput, Select } from "@mantine/core";
+import { Grid, Group, TextInput, Select, Loader } from "@mantine/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import useFridge from "../../hooks/useFridge";
@@ -7,7 +7,7 @@ import { getDaysDiff } from "../../utils/helpers";
 import FridgeItemCard from "./FridgeItemCard";
 
 export default function GroceryDisplay() {
-  const { fridge } = useFridge();
+  const { loading, fridge } = useFridge();
   const [filter, setFilter] = useState("");
   const [foodState, setFoodState] = useState("all");
 
@@ -62,7 +62,7 @@ export default function GroceryDisplay() {
       </Group>
 
       <Grid mt="1rem">
-        {filteredFridge.length > 0 ? (
+        {!loading && filteredFridge.length > 0 ? (
           filteredFridge.map((item) => (
             <Grid.Col span={3}>
               <FridgeItemCard data={item} />
@@ -70,7 +70,8 @@ export default function GroceryDisplay() {
           ))
         ) : (
           <div style={{margin: "1rem", color: "lightgray" }}>
-              <h3>No Items Found</h3>
+              {loading ? <Loader size="sm" />  : <h3>No Items Found</h3>}
+              
           </div>
         )}
       </Grid>

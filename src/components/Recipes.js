@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import useApi from "../hooks/useApi";
 import useFridge from "../hooks/useFridge";
 import IngredientList from "./recipes/IngredientList";
-import { Grid, Col } from "@mantine/core";
+import { Grid, Col, Loader } from "@mantine/core";
 import RecipeCard from "./recipes/RecipeCard";
 
 export default function Recipes() {
@@ -45,14 +45,15 @@ export default function Recipes() {
       <h3>Recipes</h3>
       <IngredientList options={ingredients} onSubmitIngredients={handleSearch}/>
       <Grid mt="10px">
+
+        {(recipeRequest.loading || recipeDetailRequest.loading) && <Loader size="sm" />   }
         {(recipeDetailRequest.data && recipes.length === 0) && (
           <div style={{margin: "1rem", color: "lightgray" }}>
           <h3>No Recipes Found</h3>
       </div>
         )}
 
-        {
-          recipes.map(recipe => (
+        {recipeDetailRequest.data &&  recipes.map(recipe => (
             <Col span={4}>
                 <RecipeCard data={recipe} />
             </Col>  

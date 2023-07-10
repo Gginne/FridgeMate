@@ -6,7 +6,7 @@ export default function useFridge(){
     const [fridge, setFridge] = useState([])
 
     const [error, setError] = useState(null)
-
+    const [loading, setLoading] = useState(false)
     const {currentUser} = useAuth()
 
     useEffect(() => {
@@ -46,17 +46,21 @@ export default function useFridge(){
                 });
       
                 setFridge(fetchedData);
+                
               })
               .catch((error) => {
                 console.log("Error retrieving grocery items:", error);
                 setError(error)
-              });
+              }).finally(() => {
+                setLoading(false)
+              })
           });
-      
+
+        setLoading(true)
         return () => {
           unsubscribeFridgeItems();
         };
       }, [currentUser]);
 
-    return {fridge, error}
+    return {fridge, loading, error}
 }
