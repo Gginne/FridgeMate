@@ -10,7 +10,7 @@ const apiClient = axios.create({
   });
 
 export default function useApi(endpoint){
-    const [data, setData] = useState([])
+    const [data, setData] = useState(null)
     const [loading, setLoading] = useState(false)
     const [err, setErr] = useState(null)
 

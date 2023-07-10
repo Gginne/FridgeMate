@@ -31,7 +31,6 @@ export default function GroceryDisplay() {
     [filter, fridge, foodState]
   );
 
-  console.log(foodState)
   return (
     <div>
       <Group position="apart">
@@ -46,6 +45,7 @@ export default function GroceryDisplay() {
               { value: "expired", label: "Expired Items" },
             ]}
             onSearchChange={setFoodState}
+            defaultValue={"all"}
             searchValue={foodState}
           />
           <TextInput
@@ -62,11 +62,17 @@ export default function GroceryDisplay() {
       </Group>
 
       <Grid mt="1rem">
-        {filteredFridge.map((item) => (
-          <Grid.Col span={3}>
-            <FridgeItemCard data={item} />
-          </Grid.Col>
-        ))}
+        {filteredFridge.length > 0 ? (
+          filteredFridge.map((item) => (
+            <Grid.Col span={3}>
+              <FridgeItemCard data={item} />
+            </Grid.Col>
+          ))
+        ) : (
+          <div style={{margin: "1rem", color: "lightgray" }}>
+              <h3>No Items Found</h3>
+          </div>
+        )}
       </Grid>
     </div>
   );

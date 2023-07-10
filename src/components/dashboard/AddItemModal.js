@@ -101,7 +101,8 @@ export default function AddItemModal(props) {
       });
     
     const items = useMemo(() => {
-        if (groceryReq.data.results) return groceryReq.data.results.map(({id, name, image, possibleUnits}) => ({value: id, label: name, image, possibleUnits}))
+        if (groceryReq.data && groceryReq.data.results) 
+            return groceryReq.data.results.map(({id, name, image, possibleUnits}) => ({value: id, label: name, image, possibleUnits}))
         return []
     }, [groceryReq.data])
 

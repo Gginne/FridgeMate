@@ -45,11 +45,20 @@ export default function Recipes() {
       <h3>Recipes</h3>
       <IngredientList options={ingredients} onSubmitIngredients={handleSearch}/>
       <Grid mt="10px">
-        {recipes.map(recipe => (
+        {(recipeDetailRequest.data && recipes.length === 0) && (
+          <div style={{margin: "1rem", color: "lightgray" }}>
+          <h3>No Recipes Found</h3>
+      </div>
+        )}
+
+        {
+          recipes.map(recipe => (
             <Col span={4}>
                 <RecipeCard data={recipe} />
             </Col>  
-        ))}
+        )) 
+          }
+       
     </Grid>
     </div>
   );
