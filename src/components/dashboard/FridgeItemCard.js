@@ -3,23 +3,17 @@ import { ActionIcon, Card, Space, Group, Badge, Text, Divider, Tooltip, Image } 
 import { Edit, Trash } from 'react-feather'
 import DeleteItemModal from './DeleteItemModal';
 import EditItemModal from './EditItemModal';
+import { getDaysDiff } from '../../utils/helpers';
 
 function FridgeItemCard({ data }) {
   const { bought, exp, id, image, name, quantity, unit } = data;
   const [deleteItemOpen, setDeleteItemOpen] = useState(false)
   const [editItemOpen, setEditItemOpen] = useState(false)
 
-  const getDaysDiff = () => {
-    const currentDate = new Date();
-    const expirationDate = new Date(exp.seconds * 1000);
 
-    const timeDifference = expirationDate.getTime() - currentDate.getTime();
-    const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    return daysDifference
-  }
 
-  const getExpColor = () => {
-    const daysDiff = getDaysDiff()
+  const getExpColor = (exp) => {
+    const daysDiff = getDaysDiff(exp)
 
     if (daysDiff > 3) {
       return "green";
@@ -47,8 +41,8 @@ function FridgeItemCard({ data }) {
           <Tooltip withArrow label="Remove item">
               <ActionIcon 
                 onClick={() => setDeleteItemOpen(true)}
-                variant={getDaysDiff() >= 0 ? 'subtle' : 'filled'} 
-                color={getDaysDiff() >= 0 ? 'gray' : 'red'}>
+                variant={getDaysDiff(exp) >= 0 ? 'subtle' : 'filled'} 
+                color={getDaysDiff(exp) >= 0 ? 'gray' : 'red'}>
                 <Trash />
               </ActionIcon>
             </Tooltip>
@@ -69,7 +63,7 @@ function FridgeItemCard({ data }) {
 
       <Group position="apart" mt="md" mb="xs">
         <Badge color="blue" variant="filled"> Bought: {new Date(bought.seconds * 1000).toLocaleDateString()} </Badge>
-        <Badge color={getExpColor()} variant="filled"> Expires:{new Date(exp.seconds * 1000).toLocaleDateString()} </Badge>
+        <Badge color={getExpColor(exp)} variant="filled"> Expires:{new Date(exp.seconds * 1000).toLocaleDateString()} </Badge>
       </Group>
     </Card>
     </>
