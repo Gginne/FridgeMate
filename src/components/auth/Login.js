@@ -36,7 +36,6 @@ export default function Login() {
 
   }
 
-
   return (
     currentUser === null ? (
       <CenteredContainer>
